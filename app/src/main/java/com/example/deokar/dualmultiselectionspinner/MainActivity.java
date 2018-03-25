@@ -17,9 +17,11 @@ public class MainActivity extends AppCompatActivity implements DualSpinnerListen
 
     String TAG = MainActivity.class.getSimpleName();
 
+    // Items of list one and list two
     ArrayList<String> listOne = new ArrayList<>();
     ArrayList<String> listTwo = new ArrayList<>();
 
+    // List of selected item position
     ArrayList<Integer> listOneSelectedPosition = new ArrayList<>();
     ArrayList<Integer> listTwoSelectedPosition = new ArrayList<>();
 
@@ -62,7 +64,12 @@ public class MainActivity extends AppCompatActivity implements DualSpinnerListen
 
     private void openDualSpinner(){
 
-        MyDualMultiSelectionSpinner myDualMultiSelectionSpinner = new MyDualMultiSelectionSpinner(this, listOne, listTwo, listOneSelectedPosition, listTwoSelectedPosition);
+        MyDualMultiSelectionSpinner myDualMultiSelectionSpinner = new MyDualMultiSelectionSpinner(this,
+                listOne,
+                listTwo,
+                listOneSelectedPosition,
+                listTwoSelectedPosition);
+
         myDualMultiSelectionSpinner.setListener(this);
         myDualMultiSelectionSpinner.setLabels("LIST ONE LABEL", "LIST TWO LABEL");
         myDualMultiSelectionSpinner.setLabelOneStyle(30, R.color.colorAccent);
@@ -72,16 +79,19 @@ public class MainActivity extends AppCompatActivity implements DualSpinnerListen
     }
 
     @Override
-    public void DualSpinnerPositiveListener(ArrayList<Integer> selectedListOne, ArrayList<Integer> selectedListTwo, ArrayList<String> oneSelectedText, ArrayList<String> twoSelectedText) {
+    public void DualSpinnerPositiveListener(ArrayList<Integer> selectedPositionOne,
+                                            ArrayList<Integer> selectedPositionTwo,
+                                            ArrayList<String> selectedItemsOne,
+                                            ArrayList<String> selectedItemsTwo) {
 
         Toast.makeText(this, "cli", Toast.LENGTH_SHORT).show();
 
-        Log.d(TAG, "DualSpinnerPositiveListener:1 "+selectedListOne);
-        Log.d(TAG, "DualSpinnerPositiveListener:2 "+selectedListTwo);
-        Log.d(TAG, "DualSpinnerPositiveListener:1T "+oneSelectedText);
-        Log.d(TAG, "DualSpinnerPositiveListener:2T "+twoSelectedText);
+        Log.d(TAG, "DualSpinnerPositiveListener:1 "+selectedPositionOne);
+        Log.d(TAG, "DualSpinnerPositiveListener:2 "+selectedPositionTwo);
+        Log.d(TAG, "DualSpinnerPositiveListener:1T "+selectedItemsOne);
+        Log.d(TAG, "DualSpinnerPositiveListener:2T "+selectedItemsTwo);
 
-        resultTv.setText(oneSelectedText.toString() + twoSelectedText.toString());
+        resultTv.setText(selectedItemsOne.toString() + selectedItemsTwo.toString());
 
     }
 

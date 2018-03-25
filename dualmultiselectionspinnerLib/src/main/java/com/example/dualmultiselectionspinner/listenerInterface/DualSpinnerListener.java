@@ -8,10 +8,10 @@ import java.util.ArrayList;
 
 public interface DualSpinnerListener {
 
-    void DualSpinnerPositiveListener(ArrayList<Integer> selectedListOne,
-                                     ArrayList<Integer> selectedListTwo,
-                                     ArrayList<String> oneSelectedText,
-                                     ArrayList<String> twoSelectedText
+    void DualSpinnerPositiveListener(ArrayList<Integer> selectedPositionOne,
+                                     ArrayList<Integer> selectedPositionTwo,
+                                     ArrayList<String> selectedItemsOne,
+                                     ArrayList<String> selectedItemsTwo
     );
 
     void DualSpinnerCancelListener();
