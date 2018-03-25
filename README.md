@@ -12,15 +12,26 @@ MyDualMultiSelectionSpinner is a library that allows you to create a multi selec
 ### Repository
 
 Add this in your root build.gradle file ( not your module build.gradle file):
-
-.............code..............
+```xml
+allprojects {
+		repositories {
+			...
+			maven { url 'https://jitpack.io' }
+		}
+	}
+```
 
 
 ## Dependency
 
 Add this to your module's build.gradle file:
 
-..........code...............
+```xml
+dependencies {
+	        compile 'com.github.yatindeokar:DualMultiSelectionSpinner:v1.0.1'
+	}
+
+```
 
 ## Basic Usage
 
