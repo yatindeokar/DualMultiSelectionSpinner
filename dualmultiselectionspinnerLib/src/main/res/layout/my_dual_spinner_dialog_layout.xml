@@ -2,18 +2,19 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="300dp"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="2"
         android:layout_marginBottom="50dp"
-        android:padding="15dp"
-        >
+        android:orientation="vertical"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:weightSum="2">
 
         <TextView
             android:id="@+id/list_one_label"
@@ -26,7 +27,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            >
+            android:fadeScrollbars="false">
 
             <LinearLayout
                 android:id="@+id/list_layout_one"
@@ -40,11 +41,17 @@
 
         </ScrollView>
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="#6e898989" />
 
         <TextView
             android:id="@+id/list_two_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
             android:text="Label Two"
             android:textSize="20dp" />
 
@@ -52,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            >
+            android:fadeScrollbars="false">
 
             <LinearLayout
                 android:id="@+id/list_layout_two"
@@ -72,27 +79,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#af3c3c"
         android:layout_gravity="bottom"
         android:gravity="right">
 
 
         <Button
             android:id="@+id/cancel_button"
+            style="?borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"
-            style="?borderlessButtonStyle"
-
-            />
+            android:text="Cancel" />
 
         <Button
             android:id="@+id/ok_button"
+            style="?borderlessButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ok"
-            style="?borderlessButtonStyle"
-
-            />
+            android:text="Ok" />
 
 
     </LinearLayout>
