@@ -88,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements DualSpinnerListen
     @Override
     public void DualSpinnerCancelListener() {
 
+        Toast.makeText(this, "Cancel Click", Toast.LENGTH_SHORT).show();
+
     }
 
     @Override
