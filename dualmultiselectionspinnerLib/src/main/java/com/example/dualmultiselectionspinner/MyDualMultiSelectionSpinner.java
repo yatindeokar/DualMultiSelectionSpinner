@@ -12,6 +12,9 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
+
+import com.example.dualmultiselectionspinner.listenerInterface.DualSpinnerListener;
 
 import java.util.ArrayList;
 
@@ -22,26 +25,38 @@ import java.util.ArrayList;
 public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickListener {
 
 
+    static String labelOne, labelTwo;
+
     ArrayList<CheckBox> CHECK_BOX_LIST_ONE = new ArrayList<>();
     ArrayList<CheckBox> CHECK_BOX_LIST_TWO = new ArrayList<>();
-
     ArrayList<Integer> LIST_ONE_SELECTED_INDEX = new ArrayList<>();
     ArrayList<Integer> LIST_TWO_SELECTED_INDEX = new ArrayList<>();
-
-    ArrayList<String> selected_item_list = new ArrayList<>();
-
+    ArrayList<String> selected_item_list_one = new ArrayList<>();
+    ArrayList<String> selected_item_list_two = new ArrayList<>();
+    ArrayList<Integer> list_one_checked_item_position = new ArrayList<>();
+    ArrayList<Integer> list_two_checked_item_position = new ArrayList<>();
     ArrayList<String> listOne = new ArrayList<>();
     ArrayList<String> listTwo = new ArrayList<>();
-
     Button okButton, cancelButton;
-
     LinearLayout listOneLinearLayout, listTwoLinearLayout;
 
+    TextView listOneLabelTv, listTwoLabelTv;
 
-    public MyDualMultiSelectionSpinner(@NonNull Context context, ArrayList<String> listOne, ArrayList<String> listTwo) {
+    DualSpinnerListener dualSpinnerListener;
+
+    public MyDualMultiSelectionSpinner(@NonNull Context context,
+                                       ArrayList<String> listOne,
+                                       ArrayList<String> listTwo,
+                                       ArrayList<Integer> list_one_checked_item_position,
+                                       ArrayList<Integer> list_two_checked_item_position
+
+    ) {
         super(context);
         this.listOne = listOne;
         this.listTwo = listTwo;
+
+        this.list_one_checked_item_position = list_one_checked_item_position;
+        this.list_two_checked_item_position = list_two_checked_item_position;
     }
 
     public MyDualMultiSelectionSpinner(@NonNull Context context, int themeResId) {
@@ -53,11 +68,17 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
     }
 
 
+    public void setListener(DualSpinnerListener dualSpinnerListener) {
+
+        this.dualSpinnerListener = dualSpinnerListener;
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.my_loding_button_layout);
+        setContentView(R.layout.my_dual_spinner_dialog_layout);
 
         initView();
 
@@ -75,6 +96,11 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
         okButton = findViewById(R.id.ok_button);
         cancelButton = findViewById(R.id.cancel_button);
 
+        listOneLabelTv = findViewById(R.id.list_one_label);
+        listTwoLabelTv = findViewById(R.id.list_two_label);
+
+        listOneLabelTv.setText(labelOne);
+        listTwoLabelTv.setText(labelTwo);
 
         okButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
@@ -84,6 +110,8 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
     private void addItemToLayoutOne() {
 
         TableLayout tableLayout = new TableLayout(getContext());
+
+        Log.d("TAG", "addItemToLayoutOne: " + listOne);
 
         for (int i = 0; i < listOne.size(); i++) {
 
@@ -95,24 +123,50 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
 //            tableLayout.addView(tableRow);
 
+            Log.d("TAG", "addItemToLayoutOne: " + i);
+
             tableRow.addView(checkBox);
 
             CHECK_BOX_LIST_ONE.add(checkBox);
 
             listOneLinearLayout.addView(tableRow);
 
+            //Set height of view
+
 
         }
 
 
-        CHECK_BOX_LIST_ONE.get(1).setChecked(true);
+        checkedListOneItems();
 
     }
 
+    private void checkedListOneItems() {
+
+        for (int i = 0; i < list_one_checked_item_position.size(); i++) {
+
+            CHECK_BOX_LIST_ONE.get(list_one_checked_item_position.get(i)).setChecked(true);
+
+        }
+
+    }
+
+    private void checkedListTwoItems() {
+
+        for (int i = 0; i < list_two_checked_item_position.size(); i++) {
+
+            CHECK_BOX_LIST_TWO.get(list_two_checked_item_position.get(i)).setChecked(true);
+
+        }
+
+    }
 
     private void addItemToLayoutTwo() {
 
         TableLayout tableLayout = new TableLayout(getContext());
+
+        Log.d("TAG", "addItemToLayoutTwo: " + listTwo);
+
 
         for (int i = 0; i < listTwo.size(); i++) {
 
@@ -132,21 +186,23 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
         }
 
+        checkedListTwoItems();
+
     }
 
 
-    private ArrayList<String> getOne() {
+    private ArrayList<Integer> getOne() {
 
-        ArrayList<String> one = new ArrayList<>();
+        ArrayList<Integer> one = new ArrayList<>();
 
         for (int i = 0; i < CHECK_BOX_LIST_ONE.size(); i++) {
 
             if (CHECK_BOX_LIST_ONE.get(i).isChecked()) {
 
 
-                one.add(String.valueOf(i));
+                one.add(i);
                 LIST_ONE_SELECTED_INDEX.add(i);
-                selected_item_list.add(CHECK_BOX_LIST_ONE.get(i).getText().toString());
+                selected_item_list_one.add(CHECK_BOX_LIST_ONE.get(i).getText().toString());
 
             }
 
@@ -158,17 +214,17 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
     }
 
 
-    private ArrayList<String> getTwo() {
+    private ArrayList<Integer> getTwo() {
 
-        ArrayList<String> one = new ArrayList<>();
+        ArrayList<Integer> one = new ArrayList<>();
 
         for (int i = 0; i < CHECK_BOX_LIST_TWO.size(); i++) {
 
             if (CHECK_BOX_LIST_TWO.get(i).isChecked()) {
 
-                one.add(String.valueOf(i));
+                one.add(i);
                 LIST_TWO_SELECTED_INDEX.add(i);
-                selected_item_list.add(CHECK_BOX_LIST_TWO.get(i).getText().toString());
+                selected_item_list_two.add(CHECK_BOX_LIST_TWO.get(i).getText().toString());
             }
 
         }
@@ -177,15 +233,22 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
         return one;
     }
 
+    public void setLabels(String labelOne, String labelTwo) {
 
-    public ArrayList<Integer> getListOneSelectedIndex(){
+        this.labelOne = labelOne;
+        this.labelTwo = labelTwo;
+
+    }
+
+
+    public ArrayList<Integer> getListOneSelectedIndex() {
 
         return LIST_ONE_SELECTED_INDEX;
 
 
     }
 
-    public ArrayList<Integer> getListTwoSelectedIndex(){
+    public ArrayList<Integer> getListTwoSelectedIndex() {
 
         return LIST_TWO_SELECTED_INDEX;
 
@@ -196,20 +259,28 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
         int id = view.getId();
 
-        if (id == R.id.ok_button){
+        if (id == R.id.ok_button) {
 
-            selected_item_list.clear();
-            Log.d("TAG", "onClick: ONE = " + getOne());
-            Log.d("TAG", "onClick: TWO = " + getTwo());
-            Log.d("TAG", "onClick: TWO = " + selected_item_list);
+            selected_item_list_one.clear();
+            selected_item_list_two.clear();
 
-        }
+            dualSpinnerListener.DualSpinnerPositiveListener(getOne(),
+                    getTwo(),
+                    selected_item_list_one,
+                    selected_item_list_two
 
-        if (id == R.id.cancel_button){
+            );
 
             dismiss();
 
         }
+
+        if (id == R.id.cancel_button) {
+
+            dismiss();
+
+        }
+
 
     }
 }
