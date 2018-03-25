@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements DualSpinnerListen
         MyDualMultiSelectionSpinner myDualMultiSelectionSpinner = new MyDualMultiSelectionSpinner(this, listOne, listTwo, listOneSelectedPosition, listTwoSelectedPosition);
         myDualMultiSelectionSpinner.setListener(this);
         myDualMultiSelectionSpinner.setLabels("LIST ONE LABEL", "LIST TWO LABEL");
+        myDualMultiSelectionSpinner.setLabelOneStyle(30, R.color.colorAccent);
+        myDualMultiSelectionSpinner.setLabelTwoStyle(30, R.color.colorPrimaryDark);
         myDualMultiSelectionSpinner.show();
 
     }
@@ -80,6 +82,11 @@ public class MainActivity extends AppCompatActivity implements DualSpinnerListen
         Log.d(TAG, "DualSpinnerPositiveListener:2T "+twoSelectedText);
 
         resultTv.setText(oneSelectedText.toString() + twoSelectedText.toString());
+
+    }
+
+    @Override
+    public void DualSpinnerCancelListener() {
 
     }
 

@@ -14,4 +14,6 @@ public interface DualSpinnerListener {
                                      ArrayList<String> twoSelectedText
     );
 
+    void DualSpinnerCancelListener();
+
 }

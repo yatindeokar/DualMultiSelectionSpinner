@@ -5,12 +5,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
@@ -25,7 +25,9 @@ import java.util.ArrayList;
 public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickListener {
 
 
-    static String labelOne, labelTwo;
+     String labelOne, labelTwo;
+     float labelOneTextSize = 10, labelTwoTextSize = 10;
+     int labelOneTextColor = 0, labelTwoTextColor = 0;
 
     ArrayList<CheckBox> CHECK_BOX_LIST_ONE = new ArrayList<>();
     ArrayList<CheckBox> CHECK_BOX_LIST_TWO = new ArrayList<>();
@@ -83,8 +85,8 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
         initView();
 
 
-        addItemToLayoutOne();
-        addItemToLayoutTwo();
+        addItemToListOne();
+        addItemToListTwo();
     }
 
     private void initView() {
@@ -105,13 +107,27 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
         okButton.setOnClickListener(this);
         cancelButton.setOnClickListener(this);
 
+
+        setStyle();
     }
 
-    private void addItemToLayoutOne() {
+    private void setStyle(){
 
-        TableLayout tableLayout = new TableLayout(getContext());
+        listOneLabelTv.setTextSize(labelOneTextSize);
+        listTwoLabelTv.setTextSize(labelTwoTextSize);
 
-        Log.d("TAG", "addItemToLayoutOne: " + listOne);
+
+        if (labelOneTextColor != 0)
+        listOneLabelTv.setTextColor(ContextCompat.getColor(getContext(), labelOneTextColor));
+
+        if (labelTwoTextColor != 0)
+        listTwoLabelTv.setTextColor(ContextCompat.getColor(getContext(), labelTwoTextColor));
+
+    }
+
+    private void addItemToListOne() {
+
+        Log.d("TAG", "addItemToListOne: " + listOne);
 
         for (int i = 0; i < listOne.size(); i++) {
 
@@ -121,9 +137,7 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
             CheckBox checkBox = new CheckBox(getContext());
             checkBox.setText(listOne.get(i));
 
-//            tableLayout.addView(tableRow);
-
-            Log.d("TAG", "addItemToLayoutOne: " + i);
+            Log.d("TAG", "addItemToListOne: " + i);
 
             tableRow.addView(checkBox);
 
@@ -161,11 +175,9 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
     }
 
-    private void addItemToLayoutTwo() {
+    private void addItemToListTwo() {
 
-        TableLayout tableLayout = new TableLayout(getContext());
-
-        Log.d("TAG", "addItemToLayoutTwo: " + listTwo);
+        Log.d("TAG", "addItemToListTwo: " + listTwo);
 
 
         for (int i = 0; i < listTwo.size(); i++) {
@@ -174,8 +186,6 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
             CheckBox checkBox = new CheckBox(getContext());
             checkBox.setText(listTwo.get(i));
-
-//            tableLayout.addView(tableRow);
 
             tableRow.addView(checkBox);
 
@@ -191,7 +201,7 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
     }
 
 
-    private ArrayList<Integer> getOne() {
+    private ArrayList<Integer> getListOneSelectedPosition() {
 
         ArrayList<Integer> one = new ArrayList<>();
 
@@ -214,7 +224,7 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
     }
 
 
-    private ArrayList<Integer> getTwo() {
+    private ArrayList<Integer> getListTwoSelectedPosition() {
 
         ArrayList<Integer> one = new ArrayList<>();
 
@@ -240,6 +250,18 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
     }
 
+    public void setLabelOneStyle(float labelTextSize, int labelTextColor){
+
+        this.labelOneTextSize = labelTextSize;
+        this.labelOneTextColor = labelTextColor;
+
+    }
+
+    public void setLabelTwoStyle(float labelTextSize, int labelTextColor){
+
+        this.labelTwoTextSize = labelTextSize;
+        this.labelTwoTextColor = labelTextColor;
+    }
 
     public ArrayList<Integer> getListOneSelectedIndex() {
 
@@ -264,8 +286,8 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
             selected_item_list_one.clear();
             selected_item_list_two.clear();
 
-            dualSpinnerListener.DualSpinnerPositiveListener(getOne(),
-                    getTwo(),
+            dualSpinnerListener.DualSpinnerPositiveListener(getListOneSelectedPosition(),
+                    getListTwoSelectedPosition(),
                     selected_item_list_one,
                     selected_item_list_two
 
@@ -276,6 +298,8 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
         }
 
         if (id == R.id.cancel_button) {
+
+            dualSpinnerListener.DualSpinnerCancelListener();
 
             dismiss();
 
