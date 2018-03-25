@@ -25,25 +25,42 @@ import java.util.ArrayList;
 public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickListener {
 
 
-     String labelOne, labelTwo;
-     float labelOneTextSize = 10, labelTwoTextSize = 10;
-     int labelOneTextColor = 0, labelTwoTextColor = 0;
+    // List one label and list two label string
+    String labelOne = "Label One", labelTwo = "Label Two";
 
+    // List label text size by default it is 10
+    float labelOneTextSize = 20, labelTwoTextSize = 20;
+
+    // List label text color by default it is 0, #nothing
+    int labelOneTextColor = 0, labelTwoTextColor = 0;
+
+    // CheckBox list of list one an list two
     ArrayList<CheckBox> CHECK_BOX_LIST_ONE = new ArrayList<>();
     ArrayList<CheckBox> CHECK_BOX_LIST_TWO = new ArrayList<>();
+
+    // List of selected index of list one and list two
     ArrayList<Integer> LIST_ONE_SELECTED_INDEX = new ArrayList<>();
     ArrayList<Integer> LIST_TWO_SELECTED_INDEX = new ArrayList<>();
+
     ArrayList<String> selected_item_list_one = new ArrayList<>();
     ArrayList<String> selected_item_list_two = new ArrayList<>();
+
     ArrayList<Integer> list_one_checked_item_position = new ArrayList<>();
     ArrayList<Integer> list_two_checked_item_position = new ArrayList<>();
+
+    // List of items of list one and list two
     ArrayList<String> listOne = new ArrayList<>();
     ArrayList<String> listTwo = new ArrayList<>();
+
+    // Ok an cancel button
     Button okButton, cancelButton;
+
     LinearLayout listOneLinearLayout, listTwoLinearLayout;
 
+    // List one and list two label text view
     TextView listOneLabelTv, listTwoLabelTv;
 
+    // This is interface of ok an cancel button listener
     DualSpinnerListener dualSpinnerListener;
 
     public MyDualMultiSelectionSpinner(@NonNull Context context,
@@ -69,7 +86,10 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
         super(context, cancelable, cancelListener);
     }
 
-
+    /**
+     * Set ok and cancel button listener
+     * @param dualSpinnerListener
+     */
     public void setListener(DualSpinnerListener dualSpinnerListener) {
 
         this.dualSpinnerListener = dualSpinnerListener;
@@ -89,6 +109,9 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
         addItemToListTwo();
     }
 
+    /**
+     * Initialise views and set listeners
+     */
     private void initView() {
 
         listOneLinearLayout = findViewById(R.id.list_layout_one);
@@ -111,20 +134,26 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
         setStyle();
     }
 
-    private void setStyle(){
+    /**
+     * Set style to views
+     */
+    private void setStyle() {
 
         listOneLabelTv.setTextSize(labelOneTextSize);
         listTwoLabelTv.setTextSize(labelTwoTextSize);
 
 
         if (labelOneTextColor != 0)
-        listOneLabelTv.setTextColor(ContextCompat.getColor(getContext(), labelOneTextColor));
+            listOneLabelTv.setTextColor(ContextCompat.getColor(getContext(), labelOneTextColor));
 
         if (labelTwoTextColor != 0)
-        listTwoLabelTv.setTextColor(ContextCompat.getColor(getContext(), labelTwoTextColor));
+            listTwoLabelTv.setTextColor(ContextCompat.getColor(getContext(), labelTwoTextColor));
 
     }
 
+    /**
+     * Add items to section one list
+     */
     private void addItemToListOne() {
 
         Log.d("TAG", "addItemToListOne: " + listOne);
@@ -155,6 +184,9 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
     }
 
+    /**
+     * Set items checked in list one
+     */
     private void checkedListOneItems() {
 
         for (int i = 0; i < list_one_checked_item_position.size(); i++) {
@@ -165,6 +197,9 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
     }
 
+    /**
+     * Add items to section two list
+     */
     private void checkedListTwoItems() {
 
         for (int i = 0; i < list_two_checked_item_position.size(); i++) {
@@ -175,6 +210,9 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
     }
 
+    /**
+     * Set items checked in list two
+     */
     private void addItemToListTwo() {
 
         Log.d("TAG", "addItemToListTwo: " + listTwo);
@@ -200,7 +238,10 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
     }
 
-
+    /**
+     * Get list one selected item position
+     * @return
+     */
     private ArrayList<Integer> getListOneSelectedPosition() {
 
         ArrayList<Integer> one = new ArrayList<>();
@@ -223,7 +264,10 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
         return one;
     }
 
-
+    /**
+     * Get list two selected item position
+     * @return
+     */
     private ArrayList<Integer> getListTwoSelectedPosition() {
 
         ArrayList<Integer> one = new ArrayList<>();
@@ -243,6 +287,11 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
         return one;
     }
 
+    /**
+     * Set list one and list two label
+     * @param labelOne
+     * @param labelTwo
+     */
     public void setLabels(String labelOne, String labelTwo) {
 
         this.labelOne = labelOne;
@@ -250,14 +299,24 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
     }
 
-    public void setLabelOneStyle(float labelTextSize, int labelTextColor){
+    /**
+     * Set label one text style, text size and text color
+     * @param labelTextSize
+     * @param labelTextColor
+     */
+    public void setLabelOneStyle(float labelTextSize, int labelTextColor) {
 
         this.labelOneTextSize = labelTextSize;
         this.labelOneTextColor = labelTextColor;
 
     }
 
-    public void setLabelTwoStyle(float labelTextSize, int labelTextColor){
+    /**
+     * Set label two text style, text size and text color
+     * @param labelTextSize
+     * @param labelTextColor
+     */
+    public void setLabelTwoStyle(float labelTextSize, int labelTextColor) {
 
         this.labelTwoTextSize = labelTextSize;
         this.labelTwoTextColor = labelTextColor;
@@ -283,9 +342,11 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
         if (id == R.id.ok_button) {
 
+            //Clear list to avoid duplication
             selected_item_list_one.clear();
             selected_item_list_two.clear();
 
+            // Set ok button click listener
             dualSpinnerListener.DualSpinnerPositiveListener(getListOneSelectedPosition(),
                     getListTwoSelectedPosition(),
                     selected_item_list_one,
@@ -299,6 +360,7 @@ public class MyDualMultiSelectionSpinner extends Dialog implements View.OnClickL
 
         if (id == R.id.cancel_button) {
 
+            // Set cancel button click listener
             dualSpinnerListener.DualSpinnerCancelListener();
 
             dismiss();
